@@ -1,6 +1,6 @@
 ---
 name: mermaid
-description: "Use this skill whenever the user wants to create, edit, optimize, or style Mermaid.js diagrams. Triggers include: any mention of 'flowchart', 'Mermaid', 'diagram as code', 'sequence diagram', 'state diagram', 'ER diagram', 'class diagram', 'Gantt chart', 'Kanban', 'architecture diagram', or requests to visualize systems, pipelines, workflows, data flows, or software architecture. Also use when the user asks to theme, style, or improve the aesthetics of an existing diagram, integrate icons, configure layout engines, or generate diagrams from descriptions.
+description: "Use this skill whenever the user wants to create, edit, optimize, or style Mermaid.js diagrams. Triggers include: any mention of 'flowchart', 'Mermaid', 'diagram as code', 'sequence diagram', 'state diagram', 'ER diagram', 'class diagram', 'Gantt chart', 'Kanban', 'architecture diagram', or requests to visualize systems, pipelines, workflows, data flows, or software architecture. Also use when the user asks to theme, style, or improve the aesthetics of an existing diagram, integrate icons, configure layout engines, or generate diagrams from descriptions."
 ---
 
 # Mermaid.js Diagramming
