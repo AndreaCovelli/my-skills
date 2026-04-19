@@ -21,3 +21,5 @@ npx skills add AndreaCovelli/my-skills --list
 npx skills add AndreaCovelli/my-skills --skill mermaid
 npx skills add AndreaCovelli/my-skills --skill mermaid -g -a claude-code
 ```
+
+Reference: https://github.com/vercel-labs/skills
