@@ -66,7 +66,9 @@ Run all commands from the repository root:
 - **Interfaces layer**: Web endpoints, CLI entrypoints, TUI. Depends on domain, never on infrastructure directly.
 
 ### Configuration
-- Use `pydantic-settings` (`BaseSettings`) **exclusively** for all config and environment variables.
+- Use `BaseSettings` from `pydantic-settings` **exclusively** for all app config and environment variables.
+- Define settings behavior via `model_config = SettingsConfigDict(...)` for options such as `env_prefix`, `env_file`, and case-sensitivity.
+- Use `Field(validation_alias=...)` or `alias` when an environment variable name must differ from the Python field name.
 - **Never** use `os.environ` directly or manual string parsing.
 
 ---
@@ -127,9 +129,11 @@ Copy `pyproject.toml` and `uv.lock` **first** to maximize layer caching.
 
 ### Dependabot
 - Configure repository dependency updates in `.github/dependabot.yml` on the default branch.
-- Use the `pip` ecosystem for Python repositories, including projects managed with `uv`.
+- For `uv`-managed repositories, use `package-ecosystem: "uv"` in `.github/dependabot.yml`.
+- Use `package-ecosystem: "pip"` only for `pip`-family manifests that Dependabot still models through `pip` (for example, `requirements.txt`, `pip-compile`, and Poetry projects that Dependabot handles via `pip`).
 - Monitor at least the repository root (`directory: "/"`) and add `github-actions` updates when workflows pin external actions.
 - Prefer grouped weekly updates with labels such as `dependencies` to reduce PR noise while keeping upgrades regular.
+- If the project uses uv's `exclude-newer`, mirror that window with Dependabot `cooldown` to avoid PRs that uv cannot relock cleanly.
 - Use security updates and version updates together; do not rely on manual upgrades as the default maintenance path.
 
 ---
@@ -138,3 +142,17 @@ Copy `pyproject.toml` and `uv.lock` **first** to maximize layer caching.
 
 When tooling, architecture patterns, or CI/CD standards in a project evolve, update the
 relevant `AGENTS.md` or skill file to keep conventions accurate for future sessions.
+
+---
+
+## References
+
+- uv overview: https://docs.astral.sh/uv/
+- uv CLI reference: https://docs.astral.sh/uv/reference/cli/
+- uv with Dependabot: https://docs.astral.sh/uv/guides/integration/dependabot/
+- Ruff docs: https://docs.astral.sh/ruff/
+- Ruff installation and invocation: https://docs.astral.sh/ruff/installation/
+- Pydantic settings API: https://docs.pydantic.dev/latest/api/pydantic_settings/
+- Pydantic settings concepts: https://docs.pydantic.dev/latest/concepts/pydantic_settings/
+- GitHub Dependabot config: https://docs.github.com/en/code-security/concepts/supply-chain-security/about-the-dependabot-yml-file
+- GitHub Dependabot ecosystems: https://docs.github.com/code-security/dependabot/ecosystems-supported-by-dependabot/supported-ecosystems-and-repositories
