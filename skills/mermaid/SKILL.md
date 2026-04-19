@@ -7,7 +7,7 @@ description: "Use this skill whenever the user wants to create, edit, optimize, 
 
 ## Overview
 
-Mermaid.js is a JavaScript-based rendering engine that converts Markdown-inspired text definitions into dynamic SVG diagrams. It supports version control, diff reviews, and co-location with source code — eliminating "doc-rot" from disconnected GUI-based documentation tools.
+Mermaid.js is a JavaScript-based rendering engine that converts Markdown-inspired text definitions into dynamic SVG diagrams. It supports version control, diff reviews, and co-location with source code, eliminating "doc-rot" from disconnected GUI-based documentation tools.
 
 ## Quick Reference
 
@@ -18,7 +18,7 @@ Mermaid.js is a JavaScript-based rendering engine that converts Markdown-inspire
 | Brand-aligned styling | `base` theme + `themeVariables` hex overrides |
 | Icon-rich infra diagram | Iconify framework + `@iconify-json/logos` or `@iconify-json/aws` |
 | Avoid platform stripping | Pre-render to SVG/PNG via `mmdc` CLI in CI/CD |
-| Hand-drawn look | `look: handDrawn` frontmatter |
+| Hand-drawn look | `look: handDrawn` + optional `handDrawnSeed` |
 | Grouped services | `subgraph` blocks + invisible padding workaround |
 
 ---
@@ -35,7 +35,7 @@ Mermaid.js is a JavaScript-based rendering engine that converts Markdown-inspire
 | `gantt` | Project timelines, task dependencies |
 | `pie` | Data proportions (up to 12 slices) |
 | `kanban` | Agile boards (Todo / In Progress / Done) |
-| `architecture` *(beta)* | Cloud topology, VPC/service grouping |
+| `architecture-beta` *(v11.1+ syntax)* | Cloud topology, VPC/service grouping |
 
 ---
 
@@ -115,22 +115,22 @@ Via JS initialization (global):
 mermaid.initialize({ layout: 'elk' })
 ```
 
-### ELK tuning parameters
+### ELK tuning parameters (documented config keys)
 
 ```yaml
 ---
 config:
   layout: elk
   elk:
-    nodeSpacing: 40        # horizontal gap between siblings (default: 24)
-    layerSpacing: 60       # vertical drop between ranks (default: 40)
-    componentSpacing: 80   # gap between disconnected clusters
-    thoroughness: 7        # crossing minimization passes (1–7; higher = cleaner, slower)
-    randomize: false       # true = explore novel layouts for tangled graphs
+    mergeEdges: false
+    nodePlacementStrategy: BRANDES_KOEPF
+    cycleBreakingStrategy: GREEDY_MODEL_ORDER
+    forceNodeModelOrder: false
+    considerModelOrder: NODES_AND_EDGES
 ---
 ```
 
-> **Tip:** `thoroughness: 7` burns extra CPU but produces dramatically cleaner outputs for tangled architectures.
+Use only the ELK keys Mermaid documents in its config schema.
 
 ---
 
@@ -270,21 +270,24 @@ This forces the layout engine to reserve spatial padding without rendering anyth
 
 Replaces brittle FontAwesome `fa:` syntax with full-color SVG icon packs.
 
-### Register packs (in HTML head or VSCode workspace config)
+### Register packs (official Mermaid API examples)
 
-```html
-<script>
-  import { addCollection } from '@iconify/iconify';
-  import logos from '@iconify-json/logos/icons.json';
-  mermaid.registerIconPacks([{ name: 'logos', icons: logos }]);
-</script>
+```js
+import mermaid from 'mermaid';
+
+mermaid.registerIconPacks([
+  {
+    name: 'logos',
+    loader: () => import('@iconify-json/logos').then((module) => module.icons),
+  },
+]);
 ```
 
 ### Use in node definitions
 
 ```
 DB_NODE@{ shape: cylinder, icon: "logos:postgresql", label: "PostgreSQL" }
-LAMBDA_FN@{ icon: "aws:lambda", label: "Lambda" }
+JS_NODE@{ icon: "logos:javascript", label: "JavaScript" }
 ```
 
 ### Available packs
@@ -295,13 +298,7 @@ LAMBDA_FN@{ icon: "aws:lambda", label: "Lambda" }
 | `@iconify-json/aws` | AWS service icons |
 | `@iconify-json/azure` | Azure service icons |
 
-### CI/CD icon injection (mmdc CLI)
-
-```bash
-mmdc -i diagram.md -o output.svg \
-  --iconPacks @iconify-json/logos \
-  --iconPacksNamesAndUrls aws:https://cdn.../aws.json
-```
+For CDN-based usage, Mermaid documents `loader` functions that fetch the Iconify JSON directly. Prefer the documented `registerIconPacks()` API over ad hoc CLI flags.
 
 ---
 
@@ -394,3 +391,14 @@ For gradient fills, declare a `<linearGradient>` in SVG namespace and reference 
 3. **Comment the source:** Use `%% Section: Auth Flow %%` between subgraphs in the raw Markdown.
 4. **ELK for anything non-trivial:** If you have more than ~10 nodes or any cross-layer edges, switch to ELK.
 5. **Semantic IDs always:** `AUTH_SERVICE` not `A`. Future you will thank present you.
+
+---
+
+## References
+
+- Configuration: https://mermaid.js.org/config/configuration
+- Layouts: https://mermaid.js.org/config/layouts
+- ELK config schema: https://mermaid.js.org/config/schema-docs/config-properties-elk.html
+- Theme configuration: https://mermaid.js.org/config/theming.html
+- Registering icon packs: https://mermaid.js.org/config/icons.html
+- Architecture diagram syntax: https://mermaid.js.org/syntax/architecture.html
