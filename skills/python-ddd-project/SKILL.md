@@ -2,18 +2,21 @@
 name: python-ddd-project
 description: >
   Enforces modern Python project standards for codebases using uv, ruff, pydantic V2,
-  structlog, logfire, and pytest with Domain-Driven Design (DDD) and Twelve-Factor App
-  principles. Use this skill whenever working in a Python project — writing new code,
-  adding dependencies, setting up CI/CD, writing tests, structuring modules, or reviewing
-  architecture. Also trigger when the user mentions uv, ruff, pydantic, structlog, logfire,
-  SQLAlchemy, pyproject.toml, DDD layers, src/ layout, or any of the toolchain items below.
-  When in doubt, load this skill — it is the authoritative source for all project conventions.
+  structlog, logfire, pytest, and Dependabot with Domain-Driven Design (DDD) and
+  Twelve-Factor App principles. Use this skill whenever working in a Python project —
+  writing new code, adding dependencies, setting up CI/CD, configuring dependency
+  updates, writing tests, structuring modules, or reviewing architecture. Also trigger
+  when the user mentions uv, ruff, pydantic, structlog, logfire, SQLAlchemy,
+  pyproject.toml, Dependabot, dependabot.yml, DDD layers, src/ layout, or any of the
+  toolchain items below. When in doubt, load this skill — it is the authoritative
+  source for all project conventions.
 ---
 
 # Python DDD Project Standards
 
 A skill for enforcing consistent, enterprise-grade Python project conventions across the
-full stack: tooling, architecture, language rules, testing, and CI/CD.
+full stack: tooling, architecture, language rules, testing, dependency maintenance, and
+CI/CD.
 
 ---
 
@@ -77,6 +80,7 @@ Run all commands from the repository root:
 | Data validation | `pydantic` V2 | marshmallow, attrs (for validation) |
 | Logging | `structlog` (structured JSON) | `logging` with string interpolation, `print()` |
 | Observability | `logfire` (OpenTelemetry) | manual metrics, bare OTEL SDK |
+| Dependency updates | `Dependabot` | manual dependency drift, ad-hoc upgrade PRs |
 | Documentation | MkDocs Material + `mkdocstrings` | Sphinx |
 
 Docstrings must follow **Google or NumPy format**.
@@ -120,6 +124,13 @@ Copy `pyproject.toml` and `uv.lock` **first** to maximize layer caching.
 - Use `paths` / `paths-ignore` so workflows only trigger on relevant file changes.
 - GitHub Actions cache writes (e.g. `setup-uv`) are **write-only on trusted `push` to `main`**. PRs use restore-only mode to prevent cache poisoning.
 - Use **Trusted Publishers (OIDC)** for PyPI releases. Never hardcode API tokens.
+
+### Dependabot
+- Configure repository dependency updates in `.github/dependabot.yml` on the default branch.
+- Use the `pip` ecosystem for Python repositories, including projects managed with `uv`.
+- Monitor at least the repository root (`directory: "/"`) and add `github-actions` updates when workflows pin external actions.
+- Prefer grouped weekly updates with labels such as `dependencies` to reduce PR noise while keeping upgrades regular.
+- Use security updates and version updates together; do not rely on manual upgrades as the default maintenance path.
 
 ---
 

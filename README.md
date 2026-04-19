@@ -10,7 +10,7 @@ skill can be installed independently and kept versioned alongside its prompt ins
 | Skill | Purpose |
 |---|---|
 | `mermaid` | Create, edit, optimize, and style Mermaid.js diagrams for architecture, workflows, ERDs, and other diagram-as-code use cases. |
-| `python-ddd-project` | Enforce Python project standards built around `uv`, `ruff`, `pydantic` v2, `pytest`, DDD layering, and CI/CD conventions. |
+| `python-ddd-project` | Enforce Python project standards built around `uv`, `ruff`, `pydantic` v2, `pytest`, Dependabot, DDD layering, and CI/CD conventions. |
 
 ## Repository layout
 
