@@ -63,3 +63,8 @@ npx skills add AndreaCovelli/my-skills --skill python-ddd-project -g -a claude-c
 ## Reference
 
 - Vercel skills project: https://github.com/vercel-labs/skills
+
+## Research References
+
+- Evaluating AGENTS.md: "Are Repository-Level Context Files Helpful for Coding Agents?" evidence that repository instruction files can increase cost and even hurt task success when they are too broad, which supports keeping skill guidance minimal and high-signal: https://arxiv.org/abs/2602.11988
+- SkillsBench: Benchmarking How Well Agent Skills Work Across Diverse Tasks, benchmark evidence that curated, focused skills can materially improve agent performance, while self-generated or overly comprehensive skills are less reliable: https://arxiv.org/abs/2602.12670
