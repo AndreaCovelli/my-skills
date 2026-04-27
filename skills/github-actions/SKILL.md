@@ -38,11 +38,13 @@ installed docs skill for those.
    Set explicit `permissions`, prefer `GITHUB_TOKEN` over long-lived credentials when possible, and use OIDC for cloud or package publishing when supported.
 5. Treat workflow inputs and contexts as potentially untrusted.
    Avoid unsafe interpolation into shell scripts or commands.
-6. Reuse instead of duplicating when the pattern is stable.
+6. Check action freshness before finalizing workflow changes.
+   If you add or change third-party actions, verify that the referenced major version is still current enough for the repository's maintenance bar, and avoid introducing obviously stale tags when a maintained release line exists.
+7. Reuse instead of duplicating when the pattern is stable.
    Prefer reusable workflows for multi-job reusable pipelines and composite actions for repeated step sequences.
-7. Optimize only after correctness is clear.
+8. Optimize only after correctness is clear.
    Add caching, matrices, concurrency control, and artifact flow only where they improve the workflow materially.
-8. Validate behavior against the repo's real use case.
+9. Validate behavior against the repo's real use case.
    Check event coverage, branch behavior, secret requirements, job ordering, and cancellation semantics.
 
 ## Final Checks
@@ -50,6 +52,7 @@ installed docs skill for those.
 - The workflow trigger matches the intended repository events and does not fire too broadly.
 - Permissions and secrets exposure are minimized for the jobs that need them.
 - Third-party actions and reusable workflows are pinned appropriately for the repo's security bar.
+- Referenced action versions are not obviously stale, and any version choice that trades freshness for stability is intentional.
 - Concurrency, caching, and matrix strategy improve the workflow instead of making it harder to reason about.
 - If the workflow depends on assumptions about branches, environments, or release flow, state them clearly.
 - If the task turned out to be a docs lookup rather than a repository change, hand it off to the docs skill instead of answering from this playbook.

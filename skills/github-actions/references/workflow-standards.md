@@ -51,7 +51,10 @@ workflows, and pull requests that change CI/CD automation.
 ## Third-Party Actions and Reusable Workflows
 
 - Prefer reputable actions with active maintenance and a clear security posture.
+- When adding or changing an action reference, check that the version is not obviously stale.
+  Prefer a current stable major line unless the repository intentionally standardizes on an older line.
 - Pin third-party actions to a full-length commit SHA when the repo's security bar requires strong supply-chain integrity.
+- If you pin to a SHA, keep the human-readable release line visible in a comment or surrounding context when practical so future updates are easier to audit.
 - Reusing third-party workflows carries similar trust risks to third-party actions.
 - Prefer reusable workflows for repeated multi-job pipelines.
 - Prefer composite actions for repeated step bundles that do not need multi-job orchestration.
@@ -98,5 +101,6 @@ When reviewing a workflow change, check:
 - whether permissions are broader than necessary
 - whether secrets can reach untrusted code paths
 - whether third-party dependencies are pinned appropriately
+- whether referenced actions are on a current enough release line for the repository
 - whether matrices, caches, and concurrency improve or degrade maintainability
 - whether the workflow duplicates an existing reusable pattern

@@ -27,3 +27,10 @@ Load this file when you need the upstream documentation for the conventions in
 
 - Dependency caching reference:
   https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching
+
+## Maintenance
+
+- Dependabot supported ecosystems:
+  https://docs.github.com/code-security/dependabot/ecosystems-supported-by-dependabot/supported-ecosystems-and-repositories
+- Dependabot configuration options:
+  https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
