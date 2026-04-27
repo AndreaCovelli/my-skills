@@ -12,7 +12,7 @@ Use this file only when the user asks for a polished, presentation-ready diagram
 ## Safe Defaults
 
 - Use `flowchart LR` for most process and architecture diagrams.
-- If the graph is dense or has many crossing edges, consider `layout: elk` when the renderer supports it.
+- Use `layout: elk` almost always when the renderer supports Mermaid frontmatter and layout config.
 - Keep node labels short enough to scan without wrapping excessively.
 
 ## Shape Conventions For Flowcharts
@@ -36,6 +36,7 @@ Use only when the target renderer supports Mermaid config blocks:
 ```mermaid
 ---
 config:
+  layout: elk
   theme: base
   themeVariables:
     primaryColor: "#1e293b"
@@ -139,3 +140,10 @@ classDef storage fill:#1e293b,stroke:#475569,color:#f8fafc
 ```
 
 Use semantic classes only where they improve readability.
+
+## Frontmatter Guidance
+
+- Prefer YAML frontmatter over Mermaid directives for diagram-level configuration.
+- Keep frontmatter small and purposeful.
+  Typical reasons to include it are layout selection, theme choice, and a few theme variables.
+- If renderer support is uncertain, provide a no-frontmatter fallback or note that the frontmatter is optional.

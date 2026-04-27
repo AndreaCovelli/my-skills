@@ -20,13 +20,17 @@ Use this file when you need up-to-date Mermaid syntax, renderer compatibility de
 - Gantt diagrams: https://mermaid.js.org/syntax/gantt.html
 - Timeline diagrams: https://mermaid.js.org/syntax/timeline.html
 - Configuration: https://mermaid.js.org/config/setup/mermaid/interfaces/MermaidConfig.html
+- Configuration overview: https://mermaid.js.org/config/configuration
 - Theming: https://mermaid.js.org/config/theming.html
+- Layouts: https://mermaid.js.org/config/layouts
 - ELK config schema: https://mermaid.js.org/config/schema-docs/config-properties-elk.html
 
 ## Current High-Value Gotchas
 
 - In flowcharts, lowercase `end` can break parsing. Use `End`, `END`, or another label form.
 - In flowcharts, connectors involving leading `o` or `x` can be parsed as special edge syntax.
+- Mermaid frontmatter must start with `---` on its own line and uses YAML syntax.
+- Mermaid documentation says frontmatter is available in v10.5.0+ and directives are deprecated by frontmatter.
 - Advanced syntax and config behavior can vary across GitHub, IDE previews, docs sites, and the Mermaid Live Editor.
 
 Checked against official Mermaid docs on 2026-04-27.

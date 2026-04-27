@@ -12,12 +12,16 @@ Create Mermaid diagrams that are structurally correct, easy to read in source fo
 1. Identify the target renderer before writing syntax.
    Common cases: GitHub markdown, Mermaid Live Editor, VS Code preview, docs site, or another markdown renderer.
 2. Choose the simplest diagram type that matches the user's intent.
-3. Default to broadly compatible Mermaid syntax.
+3. Prefer Mermaid YAML frontmatter when configuration matters and the target renderer supports it.
+   Use frontmatter for `config`, `theme`, and layout selection. Prefer frontmatter over directives.
+4. Default to broadly compatible Mermaid syntax when renderer support is unknown.
    Use newer or renderer-specific features only when the target environment is known to support them.
-4. Keep the diagram focused.
+5. Prefer `layout: elk` for dense flowcharts and other relationship-heavy diagrams when the renderer supports Mermaid layout configuration.
+   Fall back to the renderer default layout when support is unknown or constrained.
+6. Keep the diagram focused.
    If it would exceed roughly 20 nodes or become visually dense, produce one overview diagram and note where a follow-up detail diagram would help.
-5. If the user asks for polished styling, load [references/style-guide.md](references/style-guide.md).
-6. If you need current syntax for a newer feature or a less common diagram type, load [references/syntax-links.md](references/syntax-links.md).
+7. If the user asks for polished styling, load [references/style-guide.md](references/style-guide.md).
+8. If you need current syntax for a newer feature or a less common diagram type, load [references/syntax-links.md](references/syntax-links.md).
 
 ## Diagram Selection
 
@@ -39,6 +43,8 @@ When the request is ambiguous, default to `flowchart LR`.
 
 - Prefer conservative syntax for shared markdown targets.
   Avoid renderer-sensitive features unless verified.
+- Prefer YAML frontmatter for Mermaid configuration when supported.
+  If compatibility is uncertain, omit config and return plain diagram syntax first.
 - For GitHub or other constrained renderers, prefer plain Mermaid without advanced config blocks or bleeding-edge syntax.
 - Use semantic node IDs instead of single letters.
   `AUTH_SERVICE --> PRIMARY_DB` is better than `A --> B`.
@@ -79,11 +85,14 @@ When the request is ambiguous, default to `flowchart LR`.
 
 - Do not force styling when the user only wants valid Mermaid syntax.
 - When style matters, prefer a small number of intentional theme decisions over heavy customization.
+- Put theme and layout settings in YAML frontmatter when supported.
+  Avoid legacy directives unless the renderer requires them.
 - Use `classDef` sparingly to encode meaning such as entry, exit, failure, or storage.
 - For reusable palettes and config examples, load [references/style-guide.md](references/style-guide.md).
 
 ## Output
 
 - Return Mermaid code in a fenced `mermaid` block unless the user asks for inline syntax only.
+- If configuration is needed and the renderer supports it, include a YAML frontmatter block at the top of the Mermaid snippet.
 - If assumptions materially affect correctness, state them briefly after the diagram.
 - If the renderer is unknown and compatibility is a risk, mention that the diagram uses conservative syntax and note any optional enhancements separately.
