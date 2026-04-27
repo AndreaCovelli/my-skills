@@ -62,6 +62,7 @@ npx skills add AndreaCovelli/my-skills --skill python-ddd-project -g -a claude-c
 
 ## Reference
 
+- Skills specification: https://agentskills.io/specification
 - Vercel skills project: https://github.com/vercel-labs/skills
 
 ## Research References
